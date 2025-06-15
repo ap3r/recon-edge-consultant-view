@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -6,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { ArrowLeft, Search, Filter, Download } from "lucide-react";
+import { ArrowLeft, Search, Filter, Download, Image } from "lucide-react";
 
 const CustomerAssets = () => {
   const { customerId } = useParams();
@@ -20,7 +19,7 @@ const CustomerAssets = () => {
     setCustomer({ name: "TechCorp Industries" });
   }, [customerId]);
 
-  // Mock comprehensive assets data
+  // Mock comprehensive assets data with screenshots
   const allAssets = [
     {
       id: 1,
@@ -31,7 +30,7 @@ const CustomerAssets = () => {
       technologies: ["Apache 2.4", "PHP 8.1"],
       lastScan: "2 hours ago",
       riskLevel: "low",
-      status: "active"
+      screenshot: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=300&fit=crop"
     },
     {
       id: 2,
@@ -42,7 +41,7 @@ const CustomerAssets = () => {
       technologies: ["Apache 2.4", "PHP 8.1", "MySQL"],
       lastScan: "1 hour ago",
       riskLevel: "high",
-      status: "vulnerable"
+      screenshot: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=300&fit=crop"
     },
     {
       id: 3,
@@ -53,7 +52,7 @@ const CustomerAssets = () => {
       technologies: ["Node.js", "Express", "Redis"],
       lastScan: "30 mins ago",
       riskLevel: "medium",
-      status: "active"
+      screenshot: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&h=300&fit=crop"
     },
     {
       id: 4,
@@ -64,7 +63,7 @@ const CustomerAssets = () => {
       technologies: ["Nginx", "React", "Docker"],
       lastScan: "1 hour ago",
       riskLevel: "low",
-      status: "development"
+      screenshot: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=400&h=300&fit=crop"
     },
     {
       id: 5,
@@ -75,7 +74,7 @@ const CustomerAssets = () => {
       technologies: ["vsftpd", "OpenSSH", "Nginx"],
       lastScan: "45 mins ago",
       riskLevel: "high",
-      status: "misconfigured"
+      screenshot: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=400&h=300&fit=crop"
     },
     {
       id: 6,
@@ -86,7 +85,7 @@ const CustomerAssets = () => {
       technologies: ["Postfix", "Dovecot"],
       lastScan: "1 hour ago",
       riskLevel: "medium",
-      status: "active"
+      screenshot: null // No web ports, so no screenshot
     },
     {
       id: 7,
@@ -97,7 +96,7 @@ const CustomerAssets = () => {
       technologies: ["CloudFlare", "Nginx"],
       lastScan: "2 hours ago",
       riskLevel: "low",
-      status: "active"
+      screenshot: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=300&fit=crop"
     },
     {
       id: 8,
@@ -108,7 +107,7 @@ const CustomerAssets = () => {
       technologies: ["MySQL 8.0", "OpenSSH"],
       lastScan: "30 mins ago",
       riskLevel: "high",
-      status: "exposed"
+      screenshot: null // No web ports, so no screenshot
     }
   ];
 
@@ -140,6 +139,11 @@ const CustomerAssets = () => {
       case "development": return "bg-blue-100 text-blue-800";
       default: return "bg-gray-100 text-gray-800";
     }
+  };
+
+  const hasWebPorts = (ports) => {
+    const webPorts = ["80", "443", "8080", "8443", "3000", "9000"];
+    return ports.some(port => webPorts.includes(port));
   };
 
   if (!customer) {
@@ -249,7 +253,7 @@ const CustomerAssets = () => {
                   <TableHead className="text-slate-300">IP Address</TableHead>
                   <TableHead className="text-slate-300">Open Ports</TableHead>
                   <TableHead className="text-slate-300">Technologies</TableHead>
-                  <TableHead className="text-slate-300">Status</TableHead>
+                  <TableHead className="text-slate-300">Screenshot</TableHead>
                   <TableHead className="text-slate-300">Last Scan</TableHead>
                 </TableRow>
               </TableHeader>
@@ -295,9 +299,20 @@ const CustomerAssets = () => {
                       </div>
                     </TableCell>
                     <TableCell>
-                      <Badge className={getStatusColor(asset.status)}>
-                        {asset.status}
-                      </Badge>
+                      {hasWebPorts(asset.ports) && asset.screenshot ? (
+                        <div className="relative group">
+                          <img 
+                            src={asset.screenshot} 
+                            alt={`Screenshot of ${asset.asset}`}
+                            className="w-16 h-12 object-cover rounded border border-slate-600 cursor-pointer hover:scale-110 transition-transform"
+                          />
+                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 rounded transition-colors" />
+                        </div>
+                      ) : (
+                        <div className="flex items-center justify-center w-16 h-12 bg-slate-700 rounded border border-slate-600">
+                          <Image className="w-4 h-4 text-slate-500" />
+                        </div>
+                      )}
                     </TableCell>
                     <TableCell className="text-slate-400 text-sm">{asset.lastScan}</TableCell>
                   </TableRow>
