@@ -5,6 +5,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { ArrowLeft, Shield, Globe, Cloud, Database, Activity, AlertTriangle, UserX, Users } from "lucide-react";
+import CloudAssetDiscovery from "@/components/CloudAssetDiscovery";
+import SubdomainEnumeration from "@/components/SubdomainEnumeration";
 
 const CustomerDashboard = () => {
   const { customerId } = useParams();
@@ -323,6 +325,16 @@ const CustomerDashboard = () => {
               </div>
             </CardContent>
           </Card>
+        </div>
+
+        {/* Cloud Asset Discovery */}
+        <div className="mb-8">
+          <CloudAssetDiscovery customerName={customer.name} />
+        </div>
+
+        {/* Subdomain Enumeration */}
+        <div className="mb-8">
+          <SubdomainEnumeration domains={customer.domains} />
         </div>
 
         {/* Most Interesting Hosts */}
