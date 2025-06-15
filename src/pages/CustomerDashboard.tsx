@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { ArrowLeft, Shield, Globe, Cloud, Database, Activity, AlertTriangle } from "lucide-react";
+import { ArrowLeft, Shield, Globe, Cloud, Database, Activity, AlertTriangle, UserX } from "lucide-react";
 
 const CustomerDashboard = () => {
   const { customerId } = useParams();
@@ -31,6 +31,7 @@ const CustomerDashboard = () => {
       breaches: [
         { date: "2021-06", description: "Minor data exposure via misconfigured S3 bucket", severity: "Low" }
       ],
+      breachedCredentials: 127, // New field for breached credentials count
       osintData: {
         socialMedia: ["LinkedIn", "Twitter", "GitHub"],
         employees: 450,
@@ -113,7 +114,7 @@ const CustomerDashboard = () => {
 
       <div className="container mx-auto px-6 py-8">
         {/* Customer Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-6 mb-8">
           <Card className="bg-slate-800/50 border-slate-700">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium text-slate-200">Domains</CardTitle>
@@ -144,6 +145,17 @@ const CustomerDashboard = () => {
             <CardContent>
               <div className="text-2xl font-bold text-white">{customer.osintData.employees}</div>
               <p className="text-xs text-slate-400">Via OSINT</p>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-slate-800/50 border-slate-700">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium text-slate-200">Breached Credentials</CardTitle>
+              <UserX className="h-4 w-4 text-red-400" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-white">{customer.breachedCredentials}</div>
+              <p className="text-xs text-slate-400">Found in breaches</p>
             </CardContent>
           </Card>
 
