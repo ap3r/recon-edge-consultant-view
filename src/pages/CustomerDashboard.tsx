@@ -1,11 +1,10 @@
-
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { ArrowLeft, Shield, Globe, Cloud, Database, Activity, AlertTriangle, UserX } from "lucide-react";
+import { ArrowLeft, Shield, Globe, Cloud, Database, Activity, AlertTriangle, UserX, Users } from "lucide-react";
 
 const CustomerDashboard = () => {
   const { customerId } = useParams();
@@ -35,7 +34,8 @@ const CustomerDashboard = () => {
       osintData: {
         socialMedia: ["LinkedIn", "Twitter", "GitHub"],
         employees: 450,
-        techStack: ["React", "Node.js", "PostgreSQL", "Docker", "Kubernetes"]
+        techStack: ["React", "Node.js", "PostgreSQL", "Docker", "Kubernetes"],
+        usernameFormat: "first.last" // New field for username format
       }
     };
     setCustomer(mockCustomer);
@@ -73,6 +73,12 @@ const CustomerDashboard = () => {
       case "low": return "bg-green-500";
       default: return "bg-gray-500";
     }
+  };
+
+  const handleExportUsers = () => {
+    // Mock export functionality - in real app this would trigger actual export
+    console.log("Exporting OSINT users for customer:", customer.name);
+    alert(`Exporting ${customer.osintData.employees} users from OSINT data for ${customer.name}`);
   };
 
   if (!customer) {
@@ -175,12 +181,31 @@ const CustomerDashboard = () => {
           {/* OSINT Data */}
           <Card className="bg-slate-800/50 border-slate-700">
             <CardHeader>
-              <CardTitle className="text-white">OSINT Intelligence</CardTitle>
-              <CardDescription className="text-slate-400">
-                Open source intelligence gathered about the organization
-              </CardDescription>
+              <div className="flex justify-between items-start">
+                <div>
+                  <CardTitle className="text-white">OSINT Intelligence</CardTitle>
+                  <CardDescription className="text-slate-400">
+                    Open source intelligence gathered about the organization
+                  </CardDescription>
+                </div>
+                <Button
+                  onClick={handleExportUsers}
+                  size="sm"
+                  className="bg-blue-600 hover:bg-blue-700 text-white"
+                >
+                  <Users className="h-4 w-4 mr-2" />
+                  Export All Users
+                </Button>
+              </div>
             </CardHeader>
             <CardContent className="space-y-4">
+              <div>
+                <h4 className="text-slate-200 font-medium mb-2">Username Format</h4>
+                <Badge variant="outline" className="border-amber-600 text-amber-400">
+                  {customer.osintData.usernameFormat}
+                </Badge>
+              </div>
+
               <div>
                 <h4 className="text-slate-200 font-medium mb-2">Cloud Providers</h4>
                 <div className="flex flex-wrap gap-2">
