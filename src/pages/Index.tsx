@@ -28,6 +28,51 @@ const Index = () => {
       lastScan: "1 day ago",
       riskLevel: "high",
       status: "scanning"
+    },
+    {
+      id: 3,
+      name: "MedCore Systems",
+      domains: 22,
+      ipRanges: 5,
+      lastScan: "4 hours ago",
+      riskLevel: "low",
+      status: "active"
+    },
+    {
+      id: 4,
+      name: "RetailChain Global",
+      domains: 45,
+      ipRanges: 12,
+      lastScan: "6 hours ago",
+      riskLevel: "high",
+      status: "active"
+    },
+    {
+      id: 5,
+      name: "CloudFirst Solutions",
+      domains: 18,
+      ipRanges: 4,
+      lastScan: "3 hours ago",
+      riskLevel: "medium",
+      status: "scanning"
+    },
+    {
+      id: 6,
+      name: "ManufacturingPlus Inc",
+      domains: 28,
+      ipRanges: 7,
+      lastScan: "8 hours ago",
+      riskLevel: "low",
+      status: "active"
+    },
+    {
+      id: 7,
+      name: "EnergyGrid Corp",
+      domains: 56,
+      ipRanges: 15,
+      lastScan: "12 hours ago",
+      riskLevel: "high",
+      status: "inactive"
     }
   ]);
 
@@ -72,7 +117,7 @@ const Index = () => {
             </div>
             <div className="flex items-center space-x-4">
               <Badge variant="outline" className="border-blue-400 text-blue-400">
-                Consultant: Alex Chen
+                Consultant: nate drier
               </Badge>
               <Button
                 onClick={() => setShowCustomerDialog(true)}
