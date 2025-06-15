@@ -66,11 +66,49 @@ const CustomerDashboard = () => {
     }
   ];
 
+  // Mock highest risk services data
+  const highestRiskServices = [
+    {
+      service: "SSH with Password Authentication",
+      host: "admin.techcorp.com:22",
+      severity: "Critical",
+      description: "SSH server allowing password authentication - susceptible to brute force attacks"
+    },
+    {
+      service: ".NET Application with SQL Errors",
+      host: "api.techcorp.com:443",
+      severity: "High",
+      description: "Verbose SQL error messages exposed - potential for SQL injection"
+    },
+    {
+      service: "SMB Port 445 Exposed",
+      host: "203.0.113.45:445",
+      severity: "Critical",
+      description: "Windows file sharing exposed to internet - ransomware vector"
+    },
+    {
+      service: "Unencrypted FTP Server",
+      host: "ftp.techcorp.com:21",
+      severity: "High",
+      description: "Plain-text FTP service - credentials transmitted in clear"
+    }
+  ];
+
   const getRiskColor = (risk) => {
     switch (risk) {
       case "high": return "bg-red-500";
       case "medium": return "bg-amber-500";
       case "low": return "bg-green-500";
+      default: return "bg-gray-500";
+    }
+  };
+
+  const getSeverityColor = (severity) => {
+    switch (severity) {
+      case "Critical": return "bg-red-500";
+      case "High": return "bg-orange-500";
+      case "Medium": return "bg-amber-500";
+      case "Low": return "bg-green-500";
       default: return "bg-gray-500";
     }
   };
@@ -351,6 +389,37 @@ const CustomerDashboard = () => {
                 ))}
               </TableBody>
             </Table>
+          </CardContent>
+        </Card>
+
+        {/* Highest Risk Services */}
+        <Card className="bg-slate-800/50 border-slate-700">
+          <CardHeader>
+            <CardTitle className="text-white">Highest Risk Services</CardTitle>
+            <CardDescription className="text-slate-400">
+              Critical security vulnerabilities requiring immediate attention
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {highestRiskServices.map((service, index) => (
+                <div key={index} className="p-4 bg-slate-700/30 rounded-lg border border-slate-600">
+                  <div className="flex items-start justify-between mb-2">
+                    <div className="flex items-center space-x-3">
+                      <div className={`w-3 h-3 rounded-full ${getSeverityColor(service.severity)}`} />
+                      <div>
+                        <h4 className="text-slate-200 font-medium">{service.service}</h4>
+                        <p className="text-sm text-slate-400 font-mono">{service.host}</p>
+                      </div>
+                    </div>
+                    <Badge variant="outline" className={`border-red-600 text-red-400`}>
+                      {service.severity}
+                    </Badge>
+                  </div>
+                  <p className="text-sm text-slate-300 ml-6">{service.description}</p>
+                </div>
+              ))}
+            </div>
           </CardContent>
         </Card>
 
